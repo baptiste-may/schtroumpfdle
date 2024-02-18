@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Schtroumfdle</title>
+    <link rel="shortcut icon" href="logo.png">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+</head>
+<script src="client.js"></script>
+<body style="background-color: lightblue;">
+    <div class="ui container" style="display: grid; justify-items: center; align-items: center; height: 100vh;">
+        <div id="container" class="ui loading raised very padded segment" style="display: grid; justify-items: center; width: 100%;">
+            <h1 class="ui header" style="font-size: 4em;">Schtroumpfdle</h1>
+            <select id="search-smtpf" class="ui search dropdown disabled">
+                <option value="">Schtroumpf ...</option>
+            </select>
+            <br>
+            <button id="search-submit" class="ui primary button disabled">
+                <i class="search icon"></i>
+                Proposer
+            </button>
+            <table class="ui fluid selectable celled table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Nom</th>
+                    <th>Sexe</th>
+                    <th>Espèce</th>
+                    <th>Ennemies</th>
+                    <th>Apparence</th>
+                    <th>Première apparition</th>
+                </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+            <div id="message" class="ui bottom left attached basic large label">
+                <div class="ui active centered inline loader"></div>
+            </div>
+            <div id="nb-fined" class="ui bottom right attached basic large label">
+                <div class="ui active centered inline loader"></div>
+            </div>
+        </div>
+    </div>
+    <div id="alert" class="ui active dimmer container transition hidden" style="text-align: start;">
+        <div id="alert-inside" class="ui raised padded segment">
+            <h1>Bonjour !</h1>
+        </div>
+    </div>
+    <script>
+        $("#alert").on("click", () => {
+            $("#alert").transition("scale");
+        });
+    </script>
+    <div style="display: none;"><i class="check circle icon"></i></div>
+    <button id="info-button" style="position: fixed; top: 10px; right: 10px;" class="circular ui icon button">
+        <i class="icon question circle outline big"></i>
+    </button>
+</body>
+<script>
+    const dropdown = $(".ui.dropdown");
+    dropdown.dropdown();
+    dropdown.css("min-width", "25%");
+</script>
+</html>
