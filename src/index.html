@@ -48,20 +48,42 @@
             <div id="message" class="ui bottom left attached basic large label">
                 <div class="ui active centered inline loader"></div>
             </div>
-            <div id="nb-fined" class="ui bottom right attached basic large label">
+            <div id="fined" class="ui bottom right attached basic large button label">
                 <div class="ui active centered inline loader"></div>
             </div>
         </div>
     </div>
     <div id="alert" class="ui active dimmer container transition hidden" style="text-align: start;">
-        <div id="alert-inside" class="ui raised padded segment transition hidden">
-            <h1>Bonjour !</h1>
-        </div>
+        <div id="alert-inside" class="ui raised message padded segment transition hidden"></div>
     </div>
     <script>
+        $(document).ready(() => {
+            if (!Cookies.get("name")) {
+                Cookies.set("name", "Anonyme");
+                customAlert(`
+                <h1 class="ui header">
+                    <i class="child icon"></i>
+                    <div class="content">
+                        Bienvenue !
+                        <div class="sub header">Juste avant de s'amuser, comment voulez vous qu'on vous appelle ?</div>
+                    </div>
+                </h1>
+                <br>
+                <div class="ui form">
+                    <div class="field">
+                        <input id="name-input" type="text" placeholder="Entrez votre nom dans les mémoires">
+                        <div class="ui pointing label">
+                            Ce n'est pas obligatoire bien sûr !
+                        </div>
+                    </div>
+                </div>
+                `);
+            }
+        });
         $("#alert").on("click", () => {
-            $("#alert").transition("fade");
-            $("#alert-inside").transition("scale");
+            if (!$("#alert-inside").is(":hover")) {
+                closeCustomAlert();
+            }
         });
     </script>
     <div style="display: none;"><i class="check circle icon"></i></div>
@@ -70,8 +92,6 @@
     </button>
 </body>
 <script>
-    const dropdown = $(".ui.dropdown");
-    dropdown.dropdown();
-    dropdown.css("min-width", "25%");
+    $(".ui.dropdown").dropdown();
 </script>
 </html>

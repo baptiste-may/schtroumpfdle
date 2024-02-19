@@ -14,10 +14,12 @@ const HEADER_TYPE = {
     img: -1
 };
 const cron = require("node-cron");
-let NB_FINDED = 0;
+const cookieParser = require("cookie-parser");
+const FINDED = [];
 let CURRENT_STMPF;
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("src"));
 app.use(express.static("public"));
@@ -116,14 +118,18 @@ app.get("/testSchtroumpfs*", async (req, res) => {
         }
     }
     if (resJson.name && req.query.finded === "false") {
-        NB_FINDED ++;
-        console.log(`Schtroumpf finded! [${NB_FINDED}]`);
+        const name = req.cookies.name || "Anonyme";
+        FINDED.push({
+            name: name,
+            date: new Date()
+        });
+        console.log(`Schtroumpf finded! [${name}]`);
     }
     res.send(resJson);
 });
 
-app.get("/getNbFinded", (req, res) => {
-    res.send({nb: NB_FINDED});
+app.get("/getFinded", (req, res) => {
+    res.send(FINDED);
 });
 
 app.listen(PORT, () => {

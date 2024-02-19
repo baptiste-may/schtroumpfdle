@@ -68,7 +68,7 @@ $(document).ready(() => {
                         <div class="content">Bravo !</div>
                         <div class="sub header">Vous avez trouvé le Schtroumpf !</div>
                     </h1>
-                    <div class="ui blue card">
+                    <div class="ui centered blue card">
                         <div class="image">
                             <img src="${data[id].img}">
                         </div>
@@ -77,7 +77,8 @@ $(document).ready(() => {
                             <div class="meta">${data[id].species}</div>
                         </div>
                         <div class="extra content">Première apparition : ${data[id].first_episode}</div>
-                    </div>`);
+                    </div>
+                    `);
                 }
                 updateCookies(last_finded, props);
             });
@@ -95,8 +96,8 @@ $(document).ready(() => {
         $("#container").removeClass("loading");
     });
 
-    $.get("/getNbFinded", data => {
-        const nb = data.nb;
+    $.get("/getFinded", data => {
+        const nb = data.length;
         const message = (() => {
             switch (nb) {
                 case 0:
@@ -107,9 +108,31 @@ $(document).ready(() => {
                     return `${nb} personnes ont trouvé le Schtroumpf du jour !`
             }
         })();
-        const elt = $("#nb-fined");
+        const elt = $("#fined");
         elt.addClass("blue");
         elt.html(`<i class="user icon"></i>` + message);
+        elt.on("click", () => {
+            let workingElt = `
+            <h1 class="ui header">
+                <i class="clock outline icon"></i>
+                <div class="content">
+                    Leaderboard
+                    <div class="sub header">Personnes ayant trouvés le Schtroumpf du jour</div>
+                </div>
+            </h1>
+            <div class="ui celled list">
+            `;
+            for (const e of data) {
+                const date = new Date(e.date);
+                workingElt += `
+                <div class="item">
+                    <div class="header">${e.name}</div>
+                    ${date.getHours()}h ${date.getMinutes()}
+                </div>
+                `;
+            }
+            customAlert(workingElt + "</div>");
+        });
     });
 });
 
@@ -174,7 +197,12 @@ function updateCookies(last_finded, props) {
 
 function customAlert(html) {
     $("#alert").transition("fade");
-    $("#alert-inside").html(html).transition("zoom");
+    $("#alert-inside").html("<i class='close icon' onclick='closeCustomAlert()'></i>" + html).transition("zoom");
+}
+function closeCustomAlert() {
+    if ($("#name-input").length !== 0) updateName();
+    $("#alert").transition("fade");
+    $("#alert-inside").transition("scale");
 }
 
 function sameDay(d1, d2) {
@@ -183,3 +211,7 @@ function sameDay(d1, d2) {
         d1.getDate() === d2.getDate();
 }
 
+function updateName() {
+    const val = $("#name-input").val();
+    if (val !== "") Cookies.set("name", val);
+}
