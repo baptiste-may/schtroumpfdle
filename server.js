@@ -101,7 +101,7 @@ app.get("/testSchtroumpfs*", async (req, res) => {
         if (HEADER_TYPE[key] === 0) {
             resJson[key] = testedStmpf[key] === CURRENT_STMPF[key];
         } else if (HEADER_TYPE[key] === 1) {
-            if (typeof testedStmpf[key] === "string" && typeof CURRENT_STMPF[key] === "string") {
+            if (typeof testedStmpf[key] === typeof CURRENT_STMPF[key]) {
                 resJson[key] = testedStmpf[key] === CURRENT_STMPF[key];
             } else if (typeof testedStmpf[key] === "string") {
                 resJson[key] = false;
