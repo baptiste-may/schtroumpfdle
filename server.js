@@ -102,14 +102,16 @@ app.get("/testSchtroumpfs*", async (req, res) => {
             resJson[key] = testedStmpf[key] === CURRENT_STMPF[key];
         } else if (HEADER_TYPE[key] === 1) {
             if (typeof testedStmpf[key] === typeof CURRENT_STMPF[key]) {
-                resJson[key] = testedStmpf[key] === CURRENT_STMPF[key];
+                if (Array.isArray(testedStmpf[key])) {
+                    resJson[key] = {};
+                    for (const tag of testedStmpf[key]) {
+                        resJson[key][tag] = CURRENT_STMPF[key].includes(tag);
+                    }
+                } else {
+                    resJson[key] = testedStmpf[key] === CURRENT_STMPF[key];
+                }
             } else if (typeof testedStmpf[key] === "string") {
                 resJson[key] = false;
-            } else {
-                resJson[key] = {};
-                for (const tag of testedStmpf[key]) {
-                    resJson[key][tag] = CURRENT_STMPF[key].includes(tag);
-                }
             }
         }
     }
