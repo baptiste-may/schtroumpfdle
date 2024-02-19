@@ -151,7 +151,7 @@ async function addProp(smtpf, finded) {
     $("#table-body").append(`<tr>
         <td><img class="ui mini image" src="${smtpf.img}"></td>
         <td class="${requestData.name ? 'positive' : 'negative'}">${smtpf.name}</td>
-        <td class="${requestData.sex ? 'positive' : 'negative'}">${smtpf.sex === "0" ? "Masculin" : "Feminin"}</td>
+        <td class="${requestData.sex ? 'positive' : 'negative'}">${smtpf.sex === 0 ? "Masculin" : "Feminin"}</td>
         <td class="${requestData.species ? 'positive' : 'negative'}">${smtpf.species}</td>
         <td class="${typeof smtpf.ennemies === "string" ? (requestData.ennemies ? "positive" : "negative") : ""}">${typeof smtpf.ennemies === "string" ? smtpf.ennemies : createSpans(smtpf.ennemies, requestData.ennemies)}</td>
         <td>${createSpans(smtpf.looks, requestData.looks)}</td>
