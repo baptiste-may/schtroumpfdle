@@ -1,3 +1,4 @@
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 const DEFAULT_INPUT_TEXT = "Schtroumpf ...";
 
 $(document).ready(() => {
@@ -41,9 +42,11 @@ $(document).ready(() => {
         }
         if (last_finded < getNowDate()) {
             // Not finded
-            for (const id of props) {
-                await addProp(data[id]);
-            }
+            (() => {
+                for (const id of props) {
+                    addProp(data[id]);
+                }
+            })();
             updateMessage(false);
             $(".ui.dropdown").removeClass("disabled");
             searchSubmit.removeClass("disabled");
@@ -148,15 +151,20 @@ async function addProp(smtpf, finded) {
     const id = smtpf.id;
     const requestData = await request(`/testSchtroumpfs?id=${id}&finded=${finded}`);
     $(`#smtpf-${id}`).remove();
-    $("#table-body").append(`<tr>
-        <td><img class="ui mini image" src="${smtpf.img}"></td>
-        <td class="${requestData.name ? 'positive' : 'negative'}">${smtpf.name}</td>
-        <td class="${requestData.sex ? 'positive' : 'negative'}">${smtpf.sex === 0 ? "Masculin" : "Feminin"}</td>
-        <td class="${requestData.species ? 'positive' : 'negative'}">${smtpf.species}</td>
-        <td class="${typeof smtpf.ennemies === "string" ? (requestData.ennemies ? "positive" : "negative") : ""}">${typeof smtpf.ennemies === "string" ? smtpf.ennemies : createSpans(smtpf.ennemies, requestData.ennemies)}</td>
-        <td>${createSpans(smtpf.looks, requestData.looks)}</td>
-        <td class="${requestData.first_episode ? 'positive' : 'negative'}">${smtpf.first_episode}</td>
+    const elt = $(`<tr>
+        <td class="transition hidden"><img class="ui mini image" src="${smtpf.img}"></td>
+        <td class="${requestData.name ? 'positive' : 'negative'} transition hidden">${smtpf.name}</td>
+        <td class="${requestData.sex ? 'positive' : 'negative'} transition hidden">${smtpf.sex === 0 ? "Masculin" : "Feminin"}</td>
+        <td class="${requestData.species ? 'positive' : 'negative'} transition hidden">${smtpf.species}</td>
+        <td class="${typeof smtpf.ennemies === "string" ? (requestData.ennemies ? "positive" : "negative") : ""} transition hidden">${typeof smtpf.ennemies === "string" ? smtpf.ennemies : createSpans(smtpf.ennemies, requestData.ennemies)}</td>
+        <td class="transition hidden">${createSpans(smtpf.looks, requestData.looks)}</td>
+        <td class="${requestData.first_episode ? 'positive' : 'negative'} transition hidden">${smtpf.first_episode}</td>
     </tr>`);
+    $("#table-body").append(elt);
+    for (const e of elt.children()) {
+        $(e).transition("fade");
+        if (!finded) await sleep(400);
+    }
     return requestData.name;
 }
 
