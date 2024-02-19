@@ -54,13 +54,14 @@
         </div>
     </div>
     <div id="alert" class="ui active dimmer container transition hidden" style="text-align: start;">
-        <div id="alert-inside" class="ui raised padded segment">
+        <div id="alert-inside" class="ui raised padded segment transition hidden">
             <h1>Bonjour !</h1>
         </div>
     </div>
     <script>
         $("#alert").on("click", () => {
-            $("#alert").transition("scale");
+            $("#alert").transition("fade");
+            $("#alert-inside").transition("scale");
         });
     </script>
     <div style="display: none;"><i class="check circle icon"></i></div>

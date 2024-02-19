@@ -173,8 +173,8 @@ function updateCookies(last_finded, props) {
 }
 
 function customAlert(html) {
-    $("#alert").transition("scale");
-    $("#alert-inside").html(html);
+    $("#alert").transition("fade");
+    $("#alert-inside").html(html).transition("zoom");
 }
 
 function sameDay(d1, d2) {
