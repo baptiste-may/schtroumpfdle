@@ -15,7 +15,7 @@ const HEADER_TYPE = {
 };
 const cron = require("node-cron");
 const cookieParser = require("cookie-parser");
-const FINDED = [];
+let FINDED = [];
 let CURRENT_STMPF;
 
 app.use(express.json());
@@ -46,7 +46,7 @@ async function generateSchtroumpf() {
     parseStmpf(stmpf);
     console.log(`Current schtroumpf : ${stmpf.name}`);
     CURRENT_STMPF = stmpf;
-    NB_FINDED = 0;
+    FINDED = [];
 }
 
 function query(connection, sql) {
