@@ -19,6 +19,13 @@ $(document).ready(() => {
                 <p>N'hésitez pas à me contacter via <a href="mailto:pro@may-baptiste.fr">pro@may-baptiste.fr</a></p>
             </div>
         </div>
+        <div class="ui icon message">
+            <i class="code icon"></i>
+            <div class="content">
+                <div class="header">Code source</div>
+                <p>L'ensemble du code source est disponible <a href="https://github.com/DjRedstone/schtroumpfdle">ici</a></p>
+            </div>
+        </div>
         `);
     });
 
