@@ -1,5 +1,19 @@
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const DEFAULT_INPUT_TEXT = "Schtroumpf ...";
+const MONTHS = [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "September",
+    "Octobre",
+    "Novembre",
+    "Decembre"
+]
 
 $(document).ready(() => {
     $("#info-button").on("click", () => {
@@ -181,6 +195,15 @@ async function addProp(smtpf, finded) {
     const id = smtpf.id;
     const requestData = await request(`/testSchtroumpfs?id=${id}&finded=${finded}`);
     $(`#smtpf-${id}`).remove();
+    const smtpfDate = new Date(smtpf.first_episode);
+    let dateIcon = "";
+    if (requestData.first_episode === -1) {
+        dateIcon = "caret square up";
+    } else if (requestData.first_episode === 1) {
+        dateIcon = "caret square down";
+    } else {
+        dateIcon = "check";
+    }
     const elt = $(`<tr>
         <td class="transition hidden"><img class="ui mini image" src="${smtpf.img}"></td>
         <td class="${requestData.name ? 'positive' : 'negative'} transition hidden">${smtpf.name}</td>
@@ -188,7 +211,12 @@ async function addProp(smtpf, finded) {
         <td class="${requestData.species ? 'positive' : 'negative'} transition hidden">${smtpf.species}</td>
         <td class="${typeof smtpf.ennemies === "string" ? (requestData.ennemies ? "positive" : "negative") : ""} transition hidden">${typeof smtpf.ennemies === "string" ? smtpf.ennemies : createSpans(smtpf.ennemies, requestData.ennemies)}</td>
         <td class="transition hidden">${createSpans(smtpf.looks, requestData.looks)}</td>
-        <td class="${requestData.first_episode ? 'positive' : 'negative'} transition hidden">${smtpf.first_episode}</td>
+        <td class="${requestData.first_episode === 0 ? 'positive' : 'negative'} transition hidden">
+            <h5 style="margin-bottom: 0;" class="ui center aligned icon ${requestData.first_episode === 0 ? 'green' : 'red'} header">
+                <i class="${dateIcon} icon"></i>
+                <div class="sub header">${smtpfDate.getDate()}${smtpfDate.getDate() === 1 ? 'er' : ''} ${MONTHS[smtpfDate.getMonth()]} ${smtpfDate.getFullYear()}</div>
+            </h5>
+        </td>
     </tr>`);
     $("#table-body").append(elt);
     for (const e of elt.children()) {

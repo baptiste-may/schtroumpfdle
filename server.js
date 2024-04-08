@@ -10,7 +10,7 @@ const HEADER_TYPE = {
     species: 0,
     ennemies: 1,
     looks: 1,
-    first_episode: 0,
+    first_episode: 2,
     img: -1
 };
 const cron = require("node-cron");
@@ -114,6 +114,16 @@ app.get("/testSchtroumpfs*", async (req, res) => {
                 }
             } else if (typeof testedStmpf[key] === "string") {
                 resJson[key] = false;
+            }
+        } else if (HEADER_TYPE[key] === 2) {
+            const testTime = testedStmpf[key].getTime();
+            const currentTime = CURRENT_STMPF[key].getTime();
+            if (testTime < currentTime) {
+                resJson[key] = -1;
+            } else if (testTime > currentTime) {
+                resJson[key] = 1;
+            } else {
+                resJson[key] = 0;
             }
         }
     }
