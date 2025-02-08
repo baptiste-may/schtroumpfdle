@@ -25,7 +25,7 @@ export default function GuessTable({guesss, smurfs, onFinded}: {
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {guesss.map(guess => <Row key={guess} data={smurfs[guess]} onFinded={onFinded}/>)}
+                {[...guesss].reverse().map(guess => <Row key={guess} data={smurfs[guess]} onFinded={onFinded}/>)}
             </Table.Body>
         </Table>
     );
