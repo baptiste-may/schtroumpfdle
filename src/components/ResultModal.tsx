@@ -1,9 +1,10 @@
-import {Peoples} from "@prisma/client";
+import {Smurfs} from "@prisma/client";
 import {Button, Card, Header, Icon, Image, Modal} from "semantic-ui-react";
 import {useState} from "react";
+import {getSpeciesString} from "@/utils.ts";
 
 export default function ResultModal({data}: {
-    data?: Peoples;
+    data?: Smurfs;
 }) {
 
     const [isOpen, setIsOpen] = useState(true);
@@ -33,7 +34,7 @@ export default function ResultModal({data}: {
                         <Image src={img} wrapped ui={false} alt="image"/>
                         <Card.Content>
                             <Card.Header>{name}</Card.Header>
-                            <Card.Meta>{species}</Card.Meta>
+                            <Card.Meta>{getSpeciesString(species)}</Card.Meta>
                         </Card.Content>
                         <Card.Content extra>
                             {`Première apparition : ${new Date(first_episode).toLocaleString("fr", {

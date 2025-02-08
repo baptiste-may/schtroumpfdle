@@ -8,7 +8,7 @@ export async function GET(_: NextRequest, {params}: {
     }>
 }): Promise<NextResponse> {
     const {id} = await params;
-    const smurfs = await prisma.peoples.findMany();
+    const smurfs = await prisma.smurfs.findMany();
 
     const tested = smurfs.find(smurf => smurf.id === Number(id));
     if (!tested) return NextResponse.json("Smurf not found.", {
@@ -18,20 +18,18 @@ export async function GET(_: NextRequest, {params}: {
     const index = randomNumberByDate(new Date(), smurfs.length);
 
     const target = smurfs[index];
-    const ennemies = target.ennemies.split(",");
-    const looks = target.looks.split(",");
     return NextResponse.json({
         name: target.name === tested.name,
         sex: target.sex === tested.sex,
         species: target.species === tested.species,
         first_episode: compateDays(target.first_episode, tested.first_episode),
         ennemies: Object.fromEntries(
-            tested.ennemies.split(",").map(ennemy =>
-                [ennemy, ennemies.includes(ennemy)])
+            tested.ennemies.map(ennemy =>
+                [ennemy, target.ennemies.includes(ennemy)])
         ),
         looks: Object.fromEntries(
-            tested.looks.split(",").map(look =>
-                [look, looks.includes(look)])
+            tested.looks.map(look =>
+                [look, target.looks.includes(look)])
         )
     });
 }

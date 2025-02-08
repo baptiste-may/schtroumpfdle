@@ -1,3 +1,5 @@
+import { Species } from "@prisma/client";
+
 /**
  * Generates a random number between 0 and `max` that is the same each day.
  *
@@ -36,4 +38,19 @@ export function compateDays(date1: Date, date2: Date) {
     if (date1.getDate() > date2.getDate()) return 1;
     if (date1.getDate() < date2.getDate()) return -1;
     return 0;
+}
+
+/**
+ * Returns the string representation of the given species.
+ *
+ * @param species The species to get the string representation of.
+ * @returns The string representation of the given species.
+ */
+export function getSpeciesString(species: Species) {
+    return {
+        [Species.SMURF]: "Schtroumpf",
+        [Species.HUMAIN]: "Humain",
+        [Species.CAT]: "Chat",
+        [Species.DOG]: "Chien"
+    }[species];
 }

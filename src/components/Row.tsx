@@ -1,11 +1,12 @@
 "use client";
 
-import {Peoples} from "@prisma/client";
+import {Smurfs} from "@prisma/client";
 import {Header, Icon, Image, Label, Table} from "semantic-ui-react";
 import {useEffect, useState} from "react";
+import {getSpeciesString} from "@/utils.ts";
 
 export default function Row({data: {id, name, img, sex, species, ennemies, looks, first_episode}, onFinded}: {
-    data: Peoples;
+    data: Smurfs;
     onFinded: (id: number) => void;
 }) {
 
@@ -37,13 +38,13 @@ export default function Row({data: {id, name, img, sex, species, ennemies, looks
                 {sex ? "Féminin" : "Masculin"}
             </Table.Cell>
             <Table.Cell positive={testResult && testResult.species} negative={testResult && !testResult.species}>
-                {species}
+                {getSpeciesString(species)}
             </Table.Cell>
             <Table.Cell
                 positive={testResult && Object.values(testResult.ennemies).every(value => value)}
                 negative={testResult && Object.values(testResult.ennemies).every(value => !value)}
             >
-                {ennemies !== "" && ennemies.split(",").map(ennemy =>
+                {ennemies.map(ennemy =>
                     <Label
                         key={ennemy}
                         color={testResult ? testResult.ennemies[ennemy] ? "green" : "red" : "grey"}
@@ -54,7 +55,7 @@ export default function Row({data: {id, name, img, sex, species, ennemies, looks
                 positive={testResult && Object.values(testResult.looks).every(value => value)}
                 negative={testResult && Object.values(testResult.looks).every(value => !value)}
             >
-                {looks !== "" && looks.split(",").map((look, i) =>
+                {looks.map((look, i) =>
                     <Label
                         key={i}
                         color={testResult ? testResult.looks[look] ? "green" : "red" : "grey"}

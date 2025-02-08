@@ -3,17 +3,24 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Peoples {
+model Smurfs {
   id            Int      @id @default(autoincrement())
-  name          String   @db.TinyText
-  sex           Int
-  species       String   @db.TinyText
-  ennemies      String @db.Text
-  looks         String   @db.Text
-  first_episode DateTime @db.Date
-  img           String   @db.Text
+  name          String
+  sex           Boolean
+  species       Species
+  ennemies      String[]
+  looks         String[]
+  first_episode DateTime
+  img           String
+}
+
+enum Species {
+  SMURF
+  HUMAIN
+  DOG
+  CAT
 }

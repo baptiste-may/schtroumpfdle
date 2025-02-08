@@ -7,7 +7,7 @@ export async function GET(_: NextRequest, {params}: {
     }>
 }): Promise<NextResponse> {
     const {id} = await params;
-    const smurf = await prisma.peoples.findUnique({
+    const smurf = await prisma.smurfs.findUnique({
         where: {
             id: Number(id)
         }

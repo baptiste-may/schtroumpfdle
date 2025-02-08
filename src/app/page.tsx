@@ -11,7 +11,7 @@ import {
     Transition
 } from "semantic-ui-react";
 import {useEffect, useState} from "react";
-import {Peoples} from "@prisma/client";
+import {Smurfs} from "@prisma/client";
 import GuessTable from "@/components/GuessTable";
 import TitleHeader from "@/components/TitleHeader";
 import InfoModal from "@/components/InfoModal";
@@ -22,7 +22,7 @@ const LOCAL_STORAGE_KEY = "last_guesss";
 
 export default function Page() {
 
-    const [smurfs, setSmurfs] = useState<Peoples[]>([]);
+    const [smurfs, setSmurfs] = useState<Smurfs[]>([]);
     const [guesss, setGuesss] = useState<number[]>([]);
     const [searchValue, setSearchValue] = useState<number | undefined>();
     const [submitButtonAnimation, setSubmitButtonAnimation] = useState<{

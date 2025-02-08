@@ -1,12 +1,12 @@
 "use client";
 
-import {Peoples} from "@prisma/client";
+import {Smurfs} from "@prisma/client";
 import {Table} from "semantic-ui-react";
 import Row from "@/components/Row";
 
 export default function GuessTable({guesss, smurfs, onFinded}: {
     guesss: number[];
-    smurfs: Peoples[];
+    smurfs: Smurfs[];
     onFinded: (id: number) => void;
 }) {
 
