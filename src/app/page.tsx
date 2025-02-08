@@ -22,7 +22,7 @@ const LOCAL_STORAGE_KEY = "last_guesss";
 
 export default function Page() {
 
-    const [smurfs, setSmurfs] = useState<Smurfs[]>([]);
+    const [smurfs, setSmurfs] = useState<Record<number, Smurfs>>({});
     const [guesss, setGuesss] = useState<number[]>([]);
     const [searchValue, setSearchValue] = useState<number | undefined>();
     const [submitButtonAnimation, setSubmitButtonAnimation] = useState<{
@@ -49,7 +49,8 @@ export default function Page() {
     useEffect(() => {
         fetch("/api/smurf/all")
             .then(res => res.json())
-            .then(data => setSmurfs(data))
+            .then((data: Smurfs[]) => setSmurfs(data.reduce((obj, item) =>
+                ({...obj, [item.id]: item}), {})))
             .finally(() => {
                 const lastGuessString = localStorage.getItem(LOCAL_STORAGE_KEY);
                 if (lastGuessString !== null) {
@@ -68,6 +69,8 @@ export default function Page() {
         }, 4000);
     }, []);
 
+    console.log(smurfs);
+
     return (
         <>
             <Container className="!tw-flex tw-h-full tw-items-center tw-justify-center">
@@ -77,7 +80,7 @@ export default function Page() {
                         search
                         selection
                         placeholder="Schtroumpf ..."
-                        options={smurfs
+                        options={Object.values(smurfs)
                             .filter(({id}) => !guesss.includes(id))
                             .map(({id, name, img}) => {
                                 return {

@@ -6,11 +6,11 @@ import Row from "@/components/Row";
 
 export default function GuessTable({guesss, smurfs, onFinded}: {
     guesss: number[];
-    smurfs: Smurfs[];
+    smurfs: Record<number, Smurfs>;
     onFinded: (id: number) => void;
 }) {
 
-    if (guesss.length == 0 || smurfs.length == 0) return <></>;
+    if (guesss.length == 0) return <></>;
 
     return (
         <Table celled fluid="true" selectable>
